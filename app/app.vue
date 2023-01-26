@@ -1,41 +1,46 @@
 <template>
   <div>
-    <img src="./todo.jpg" alt="banner" class="banner_image"/>
-    <h1>Hello Frontend Masters!!!</h1>
+    <h1>
+      Photo Gallery
+    </h1>
 
-    <br/>
+    <br />
 
-    <button
-      @click="fetchTodoList"
-    >Fetch Todo's</button>
+    <button @click="fetchPhotoGallery">Fetch Photo's</button>
 
     <hr/>
 
+    <p>Number of photo's {{photoAmount}}</p>
+
     <ul>
       <li
-        v-for="todo in todoList"
-        :key="`todo-id${todo.id}`"
+        v-for="photo in photoGallery"
+        :key="`photo-id-${photo.id}`"
       >
-        <input type="checkbox" :checked="todo.completed"/>
-        {{todo.title}}
+        <img :src="photo.thumbnailUrl" alt="user_photo"/>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  import { defineNuxtComponent } from '#app'; //it's needs for Nuxt optimization
+  import { defineNuxtComponent } from '#app';
 
   export default defineNuxtComponent({
     data: () => ({
-      todoList: [],
+      photoGallery: [],
     }),
+    computed: {
+      photoAmount() {
+        return this.photoGallery.length;
+      },
+    },
     methods: {
-      fetchTodoList() {
-        fetch('https://jsonplaceholder.typicode.com/todos')
+      fetchPhotoGallery() {
+        fetch('https://jsonplaceholder.typicode.com/photos')
           .then(res => res.json())
           .then(res => {
-            this.todoList = res;
+            this.photoGallery = res.splice(0, 40);
           });
       },
     },
@@ -43,10 +48,10 @@
 </script>
 
 <style scoped>
- .banner_image {
-    display: block;
-    margin: 0px auto;
-    width: 90vw;
-    height: 500px;
- }
+  ul {
+    list-style-type: none;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 </style>
