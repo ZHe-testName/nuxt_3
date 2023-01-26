@@ -24,6 +24,8 @@
 </template>
 
 <script>
+  import { defineNuxtComponent } from '#app'; //it's needs for Nuxt optimization
+
   export default defineNuxtComponent({
     data: () => ({
       todoList: [],
