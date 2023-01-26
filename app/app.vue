@@ -6,14 +6,28 @@
     <br/>
 
     <button
-      @click="fetchTodoList"
-    >Fetch Todo's</button>
+      @click="showList()"
+    >Uncompleted</button>
+
+    <button
+      @click="showList(true)"
+    >Completed</button>
 
     <hr/>
 
-    <ul>
+    <ul v-if="showCompleted">
       <li
-        v-for="todo in todoList"
+        v-for="todo in completedList"
+        :key="`todo-id${todo.id}`"
+      >
+        <input type="checkbox" :checked="todo.completed"/>
+        {{todo.title}}
+      </li>
+    </ul>
+
+    <ul v-if="!showCompleted">
+      <li
+        v-for="todo in uncompletedList"
         :key="`todo-id${todo.id}`"
       >
         <input type="checkbox" :checked="todo.completed"/>
@@ -22,23 +36,53 @@
     </ul>
   </div>
 </template>
+// Composition API
+<script setup>
+  //setup attr means that we will use a script section
+  //with Composition API stuff
+  //when we use Composition API we use vanilla JS
 
-<script>
-  import { defineNuxtComponent } from '#app'; //it's needs for Nuxt optimization
+  //all what we need for Vue instance are in vue module
+  import { ref, computed, onMounted } from 'vue';
 
-  export default defineNuxtComponent({
-    data: () => ({
-      todoList: [],
-    }),
-    methods: {
-      fetchTodoList() {
-        fetch('https://jsonplaceholder.typicode.com/todos')
-          .then(res => res.json())
-          .then(res => {
-            this.todoList = res;
-          });
-      },
-    },
+  // to create data-properties use ref helper func
+  const todoList = ref([]);
+  const showCompleted = ref(false);
+
+  //to create computed-properties use computed helper func
+  //data is in value field of returned object
+  const completedList = computed(() => {
+    return todoList.value.filter(todo => todo.completed)
+  }); 
+  const uncompletedList = computed(() => {
+    return todoList.value.filter(todo => !todo.completed)
+  });  
+
+  //methods section dont need any more
+  //use vanilla JS functions
+  function fetchTodoList() {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then(res => res.json())
+      .then(res => {
+        todoList.value = res.splice(0, 30);
+      });
+  };
+
+  function showList(completed) {
+    if (completed) {
+      showCompleted.value = true;
+
+      return;
+    };
+
+    showCompleted.value = false;
+  };
+
+  //lifecycle hook's used like vanilla functions to
+  //in setup section
+  //but with on-prefix
+  onMounted(() => {
+    fetchTodoList();
   });
 </script>
 
@@ -46,7 +90,7 @@
  .banner_image {
     display: block;
     margin: 0px auto;
-    width: 90vw;
-    height: 500px;
+    width: 60vw;
+    height: 350px;
  }
 </style>
