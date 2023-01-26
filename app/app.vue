@@ -23,28 +23,22 @@
   </div>
 </template>
 
-<script>
-  import { defineNuxtComponent } from '#app';
+<script setup>
+  import { ref, computed } from 'vue';
 
-  export default defineNuxtComponent({
-    data: () => ({
-      photoGallery: [],
-    }),
-    computed: {
-      photoAmount() {
-        return this.photoGallery.length;
-      },
-    },
-    methods: {
-      fetchPhotoGallery() {
-        fetch('https://jsonplaceholder.typicode.com/photos')
-          .then(res => res.json())
-          .then(res => {
-            this.photoGallery = res.splice(0, 40);
-          });
-      },
-    },
+  const photoGallery = ref([]);
+
+  const photoAmount = computed(() => {
+    return photoGallery.value.length;
   });
+
+  function fetchPhotoGallery() {
+    fetch('https://jsonplaceholder.typicode.com/photos')
+      .then(res => res.json())
+      .then(res => {
+        photoGallery.value = res.splice(0, 40);
+      });
+  };
 </script>
 
 <style scoped>
