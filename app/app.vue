@@ -1,7 +1,8 @@
 <template>
+  <!-- EXERCISE CODE IS IN EXERCISE BRANCH -->
   <div>
     <img src="./todo.jpg" alt="banner" class="banner_image"/>
-    <h1>Hello Frontend Masters!!!</h1>
+    <h1 class="heading">Hello Frontend Masters!!!</h1>
 
     <br/>
 
@@ -15,7 +16,9 @@
 
     <hr/>
 
-    <ul v-if="showCompleted">
+    <ul 
+      class="list"
+      v-if="showCompleted">
       <li
         v-for="todo in completedList"
         :key="`todo-id${todo.id}`"
@@ -25,7 +28,9 @@
       </li>
     </ul>
 
-    <ul v-if="!showCompleted">
+    <ul
+      class="list" 
+      v-if="!showCompleted">
       <li
         v-for="todo in uncompletedList"
         :key="`todo-id${todo.id}`"
@@ -86,11 +91,29 @@
   });
 </script>
 
-<style scoped>
- .banner_image {
+<style lang="scss">
+  @import './assets/styles/main.scss';
+
+  :root {
+    --text-color: #{$textColor};
+    --bg-color: #{$layoutBgColor};
+  }
+
+  .banner_image {
     display: block;
     margin: 0px auto;
     width: 60vw;
     height: 350px;
- }
+  }
+
+  .heading {
+    color: var(--text-color);
+  }
+
+  .list {
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 </style>
