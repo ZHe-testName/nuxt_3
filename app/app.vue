@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>
+    <h1 class="header">
       Photo Gallery
     </h1>
 
@@ -14,6 +14,7 @@
 
     <ul>
       <li
+        class="photo_wrap"
         v-for="photo in photoGallery"
         :key="`photo-id-${photo.id}`"
       >
@@ -41,11 +42,25 @@
   };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  @import './assets/style/main.scss';
+
+  :root {
+    --header-color: #{$headerColor};
+  }
+
+  .header {
+    color: var(--header-color);
+  }
+
   ul {
     list-style-type: none;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+
+    li {
+      border: 4px solid #{$borderColor};
+    }
   }
 </style>
