@@ -2,7 +2,7 @@
   <!-- EXERCISE CODE IS IN EXERCISE BRANCH -->
   <BaseLayout
     title="Hello Frontend Masters!!!"
-    item-type="todos"
+    :item-type="itemsType"
     v-model:item-list="todoList"
   >
     <template 
@@ -49,11 +49,17 @@
   import BaseLayout from './BaseLayout.vue';
 
   //all what we need for Vue instance are in vue module
-  import { ref, computed, onMounted } from 'vue';
+  import { ref, computed } from 'vue';
+
+  //different helpers are in vue-router
+  import { useRoute } from 'vue-router';
 
   // to create data-properties use ref helper func
   const todoList = ref([]);
   const showCompleted = ref(false);
+
+  const route = useRoute();
+  const itemsType = route.fullPath.split('/')[2];
 
   //to create computed-properties use computed helper func
   //data is in value field of returned object

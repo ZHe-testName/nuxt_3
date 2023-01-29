@@ -1,26 +1,20 @@
 <template>
   <!-- EXERCISE CODE IS IN EXERCISE BRANCH -->
   <main>
-    <PhotoViewVue/>
-    <ListView>
-      <!-- slotProps value can't be changed -->
-      <!-- <template v-slot:banner="slotProps">
-        <img src="../todo.jpg" alt="banner" class="banner_image"/>
-        <strong>
-          Completed tasks amount : {{ slotProps.completed.length }}
-        </strong>
-      </template> -->
-    </ListView>
+    <NavBar />
+
+    <NuxtPage />
   </main>
 </template>
-// Composition API
-<script setup>
-  import ListView from './components/ListView.vue';
-  import PhotoViewVue from './components/PhotoView.vue';
-</script>
 
 <style lang="scss">
   @import './assets/styles/main.scss';
+
+  * {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+  }
 
   :root {
     --text-color: #{$textColor};
@@ -30,7 +24,6 @@
   }
 
   main {
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
+    padding-top: 50px;
   }
 </style>
